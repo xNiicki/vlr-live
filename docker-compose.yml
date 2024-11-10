@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  nextjs:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app:delegated
+      - /app/node_modules
+      - /app/.next
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
+    command: npm run dev
+
+  api:
+    build: ./api
+    ports:
+      - "9091:9091"
+    volumes:
+      - ./api:/app:delegated
+      - /app/node_modules
+    command: python main.py
+
+volumes:
+  node_modules:
+  next:
